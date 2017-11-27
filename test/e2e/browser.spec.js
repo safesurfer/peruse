@@ -67,6 +67,7 @@ describe( 'main window', () =>
         const tabIndex = await newTab( app );
         await navigateTo( app, 'http://example.com' );
         await client.waitForExist( BROWSER_UI.ADDRESS_INPUT );
+        await client.pause( 1500 ); // need to wait a sec for the UI to catch up
         const address = await client.getValue( BROWSER_UI.ADDRESS_INPUT );
 
         await client.windowByIndex( tabIndex );
