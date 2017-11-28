@@ -15,6 +15,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
 
 const delay = time => new Promise( resolve => setTimeout( resolve, time ) );
 
+console.log('---------------', path.join( __dirname, '..', '..', 'app' ))
 // NOTE: Getting errors in e2e for seemingly no reason? Check you havent enabled devtools in menu.js, this makes spectron
 // have a bad time.
 const app = new Application( {

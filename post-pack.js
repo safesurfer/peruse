@@ -57,7 +57,7 @@ console.log( 'Renaming package to:', path.resolve( targetDir, `${RELEASE_FOLDER_
 // fs.moveSync( CONTAINING_FOLDER, path.resolve( targetDir, `${RELEASE_FOLDER_NAME}` ), { overwrite: true } );
 
 // create a file to stream archive data to.
-const output = fs.createWriteStream( path.resolve( targetDir, `${RELEASE_FOLDER_NAME}.zip` ) );
+const output = fs.createWriteStream( path.resolve( CONTAINING_FOLDER, `${RELEASE_FOLDER_NAME}.zip` ) );
 const archive = archiver( 'zip', {
     zlib : { level: 9 } // Sets the compression level.
 } );
