@@ -45,11 +45,20 @@ script:
 - if [[ "$NODE_ENV" == "prod" ]]; then export NODE_ENV=production;
   fi
 - yarn run package
-# - yarn run post-pack
+- yarn run post-pack
 before_deploy:
+- ls release
+- export RELEASE="$(ls release)";
+- echo "deploying ${RELEASE} to GitHub releases as tagged with ${TRAVIS_TAG}"
+- zip -r -q release/$(ls release).zip release/$(ls release);
+- rm -rf release/$DIST_FOLDER
+- if [[ "$NODE_ENV" == "dev" ]]; then mv release/{,mock-}$(ls release);
+  fi
 - ls release
 - export RELEASE_ZIP="$(ls release/*.zip)";
 - echo "deploying ${RELEASE_ZIP} to GitHub releases as tagged with ${TRAVIS_TAG}"
+
+
 deploy:
   provider: releases
   skip_cleanup: true
