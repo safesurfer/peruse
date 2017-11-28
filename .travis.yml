@@ -4,7 +4,7 @@ os:
 - osx
 - linux
 env:
-# - NODE_ENV=dev
+- NODE_ENV=dev
 - NODE_ENV=prod
 language: node_js
 node_js:
@@ -33,7 +33,10 @@ before_script:
 script:
 - yarn run build
 - yarn run test
-# - yarn run test e2e
+- if [[ "$NODE_ENV" !== "prod" ]]; then yarn run test e2e;
+  fi
+- if [[ "$NODE_ENV" !== "prod" ]]; then export NODE_ENV=production;
+  fi
 - yarn run package
 - yarn run post-pack
 before_deploy:
