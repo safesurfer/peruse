@@ -35,10 +35,6 @@ script:
 - yarn run test
 - export {no_proxy,NO_PROXY}="127.0.0.1,localhost"
 - sleep 15
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then yarn run log-osx;
-  fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yarn run log-linux;
-  fi
 # - yarn run test e2e;
 - if [[ "$NODE_ENV" != "prod" ]]; then yarn run test e2e;
   fi
