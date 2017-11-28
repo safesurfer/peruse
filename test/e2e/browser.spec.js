@@ -11,7 +11,7 @@ import {
 
 import { BROWSER_UI, AUTH_UI } from './lib/constants';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
 
 const delay = time => new Promise( resolve => setTimeout( resolve, time ) );
 
