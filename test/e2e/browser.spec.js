@@ -32,6 +32,7 @@ describe( 'main window', () =>
 {
     beforeAll( async () =>
     {
+        await delay( 10000 )
         await app.start();
         await app.client.waitUntilWindowLoaded();
     } );
@@ -75,7 +76,7 @@ describe( 'main window', () =>
         const parsedUrl = urlParse( clientUrl );
         // const clientUrl = removeTrailingSlash ( await client.getUrl() );
 
-        expect( parsedUrl.protocol ).toBe( 'safe:' );
+        expect( parsedUrl.protocol ).toBe( 'about:' );
 
     } );
 
