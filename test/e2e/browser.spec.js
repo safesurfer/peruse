@@ -115,7 +115,7 @@ describe( 'main window', () =>
 
     } );
 
-    xit( 'loads safe-auth:// home', async () =>
+    it( 'loads safe-auth:// home', async () =>
     {
         const { client } = app;
         const tabIndex = await newTab( app );
