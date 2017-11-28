@@ -11,11 +11,10 @@ import {
 
 import { BROWSER_UI, AUTH_UI } from './lib/constants';
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 55000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
 
 const delay = time => new Promise( resolve => setTimeout( resolve, time ) );
 
-console.log('---------------', path.join( __dirname, '..', '..', 'app' ))
 // NOTE: Getting errors in e2e for seemingly no reason? Check you havent enabled devtools in menu.js, this makes spectron
 // have a bad time.
 const app = new Application( {
@@ -47,7 +46,7 @@ describe( 'main window', () =>
 
     test( 'window loaded', async () => await app.browserWindow.isVisible() );
 
-    xit( 'DEBUG LOGGING (amend test): should haven\'t any logs in console of main window', async () =>
+    it( 'DEBUG LOGGING (amend test): should haven\'t any logs in console of main window', async () =>
     {
         const { client } = app;
         const logs = await client.getRenderProcessLogs();
@@ -74,8 +73,9 @@ describe( 'main window', () =>
 
         const clientUrl = await client.getUrl();
         const parsedUrl = urlParse( clientUrl );
+        // const clientUrl = removeTrailingSlash ( await client.getUrl() );
 
-        expect( parsedUrl.protocol ).toBe( 'about:' );
+        expect( parsedUrl.protocol ).toBe( 'safe:' );
 
     } );
 
@@ -115,7 +115,7 @@ describe( 'main window', () =>
 
     } );
 
-    it( 'loads safe-auth:// home', async () =>
+    xit( 'loads safe-auth:// home', async () =>
     {
         const { client } = app;
         const tabIndex = await newTab( app );

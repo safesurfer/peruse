@@ -54,12 +54,12 @@ removalArray.forEach( ( file ) =>
 
 console.log( 'Renaming package to:', path.resolve( targetDir, `${RELEASE_FOLDER_NAME}` ) );
 // rename release folder
-// fs.moveSync( CONTAINING_FOLDER, path.resolve( targetDir, `${RELEASE_FOLDER_NAME}` ), { overwrite: true } );
+fs.moveSync( CONTAINING_FOLDER, path.resolve( targetDir, `${RELEASE_FOLDER_NAME}` ), { overwrite: true } );
 
 // create a file to stream archive data to.
-const output = fs.createWriteStream( path.resolve( CONTAINING_FOLDER, `${RELEASE_FOLDER_NAME}.zip` ) );
+const output = fs.createWriteStream( path.resolve( targetDir, `${RELEASE_FOLDER_NAME}.zip` ) );
 const archive = archiver( 'zip', {
-    zlib : { level: 9 } // Sets the compression level.
+    zlib : { level: 4 } // Sets the compression level.
 } );
 
 // listen for all archive data to be written
@@ -68,7 +68,7 @@ output.on( 'close', () =>
     console.log( `${archive.pointer()} total bytes` );
     console.log( 'archiver has been finalized and the output file descriptor has closed.' );
 
-    // remove osx junk
+    // // remove osx junk
     // if ( platform === OSX )
     // {
     //     console.log( 'run to remove zipped nonsense: zip -d release/web-hosting-manager-v0.4.1-osx-x64.zip  *.DS_Store' );
@@ -100,6 +100,9 @@ archive.on( 'warning', ( err ) =>
         throw err;
     }
 } );
+
+console.log('CONTAINING_FOLDER', CONTAINING_FOLDER);
+console.log('RELEASE_FOLDER_NAME', RELEASE_FOLDER_NAME);
 // pipe archive data to the file
 archive.pipe( output );
 archive.directory( CONTAINING_FOLDER, RELEASE_FOLDER_NAME );
