@@ -1,7 +1,6 @@
 // @flow
 // import { remote, shell, webContents } from 'electron';
 import { TYPES } from 'actions/safe_actions';
-// import { makeValidUrl } from 'utils/urlHelpers';
 import initialAppState from './initialAppState';
 import logger from 'logger';
 
@@ -9,8 +8,7 @@ import { SAFE, CONFIG } from 'appConstants';
 
 const initialState = initialAppState.safeNetwork;
 
-console.log( '"INITIAL STATE IN EDUUCUCER"', initialState );
-const safeNetwork = ( state = initialState, action ) =>
+export default function safeNetwork( state = initialState, action )
 {
     if ( action.error )
     {
@@ -18,12 +16,15 @@ const safeNetwork = ( state = initialState, action ) =>
         return state;
     }
 
+    const payload = action.payload;
+
     switch ( action.type )
     {
         case TYPES.SET_INITIALIZER_TASK:
         {
-            const tasks = state.tasks.slice();
-            tasks.push( action.task );
+            const oldTasks = state.tasks;
+            const tasks = [ ...oldTasks ];
+            tasks.push( payload );
             return { ...state, tasks };
         }
         // case `${TYPES.AUTHORISE_APP}_LOADING`:
@@ -32,16 +33,15 @@ const safeNetwork = ( state = initialState, action ) =>
         // }
         case TYPES.AUTHORISE_SAFE_APP:
         {
-            console.log( 'this one is happening' );
             return { ...state,
-                app           : { ...state.app, ...action.payload },
+                app           : { ...state.app, ...payload },
                 appStatus     : SAFE.APP_STATUS.AUTHORISED,
                 networkStatus : CONFIG.NET_STATUS_CONNECTED
             };
         }
         case TYPES.SAFE_NETWORK_STATUS_CHANGED:
         {
-            return { ...state, networkStatus: action.payload };
+            return { ...state, networkStatus: payload };
         }
         case TYPES.GET_BROWSER_CONFIG:
         {
@@ -54,5 +54,3 @@ const safeNetwork = ( state = initialState, action ) =>
             return state;
     }
 };
-
-export default safeNetwork;
