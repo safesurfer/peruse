@@ -7,7 +7,8 @@ const initialState = {
         networkStatus   : null,
         app             : null,
         tasks           : [],
-        savedBeforeQuit : false
+        savedBeforeQuit : false,
+        saveStatus      : ''
     },
     tabs : [{
         url          : 'safe-auth://home/',

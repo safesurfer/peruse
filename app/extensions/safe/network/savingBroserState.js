@@ -1,3 +1,4 @@
+import logger from 'logger';
 
 /**
  * Adds an encrypted value mutation to an existing mutation handle + key for a given MD.
@@ -35,7 +36,7 @@ const updateOrCreateEncrypted = ( mutableDataHandle, mutationHandle, key, value,
             )
             .catch( e =>
             {
-                logInRenderer( 'Problems updating/inserting encrypted: ', e, e.message );
+                logger.error( 'Problems updating/inserting encrypted: ', e, e.message );
                 reject( e );
             } );
     } );
@@ -51,6 +52,8 @@ const updateOrCreateEncrypted = ( mutableDataHandle, mutationHandle, key, value,
  */
 export const saveConfigToSafe = ( state, quit ) =>
 {
+    logger.info( 'SAVINNNGNGGGGGGG');
+    console.log('SAVINGNGGGGGGGG');
     const stateToSave = { ...state, initializer: {} };
     const JSONToSave = JSON.stringify( stateToSave );
     let encryptedData;
@@ -64,8 +67,7 @@ export const saveConfigToSafe = ( state, quit ) =>
 
         if ( !app || !app.handle || !app.authUri )
         {
-            logInRenderer( 'Not authorised to save to the network.' );
-            console.log( 'Not authorised to save to the network.' );
+            logger.error( 'Not authorised to save to the network.' );
 
             if ( quit )
             {
@@ -75,7 +77,7 @@ export const saveConfigToSafe = ( state, quit ) =>
             return reject( 'Not authorised to save data' );
         }
 
-        logInRenderer( 'Attempting to save state to the network.' );
+        logger.info( 'Attempting to save state to the network.' );
 
         safeApp.getOwnContainer( app.handle )
             .then( res => homeMdHandle = res )
@@ -89,7 +91,7 @@ export const saveConfigToSafe = ( state, quit ) =>
                     .then( () => safeMutableData.encryptKey( homeMdHandle, STATE_KEY ) )
                     .then( res => encryptedKey = res )
                     .then( () => safeMutableData.get( homeMdHandle, encryptedKey ) )
-                    .catch( e => logInRenderer( e.code, e.message ) )
+                    .catch( e => logger.info( e.code, e.message ) )
                     .then( ( value ) =>
                     {
                         let version = null;
@@ -104,7 +106,7 @@ export const saveConfigToSafe = ( state, quit ) =>
                     .then( _ => safeMutableData.applyEntriesMutation( homeMdHandle, mutationHandle ) )
                     .then( ( done ) =>
                     {
-                        logInRenderer( 'Successfully save data to the network.' );
+                        logger.info( 'Successfully save data to the network.' );
                         resolve();
 
                         if ( quit )
@@ -117,7 +119,7 @@ export const saveConfigToSafe = ( state, quit ) =>
             } )
             .catch( e =>
             {
-                logInRenderer( 'Problems saving data to the network: ', e.message );
+                logger.error( 'Problems saving data to the network: ', e.message );
                 reject( e );
                 if ( quit )
                 {
@@ -165,13 +167,13 @@ export const readConfig = ( app ) =>
             .then( browserState => JSON.parse( browserState.toString() ) )
             .then( json =>
             {
-                logInRenderer( 'State retrieved: ', json );
+                logger.info( 'State retrieved: ', json );
                 resolve( json );
             } )
             .catch( e =>
             {
-                logInRenderer( 'Failure getting config from the network: ', e.message );
-                logInRenderer( 'Failure getting config from the network: ', e.stack );
+                logger.info( 'Failure getting config from the network: ', e.message );
+                logger.info( 'Failure getting config from the network: ', e.stack );
                 reject( e );
             } );
     } );

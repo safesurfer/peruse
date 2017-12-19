@@ -49,6 +49,12 @@ export default function safeNetwork( state = initialState, action )
                 appStatus : SAFE.APP_STATUS.READY,
             };
         }
+        case TYPES.SAVE_BROWSER_CONFIG_STATUS:
+        {
+            return { ...state,
+                saveStatus : payload,
+            };
+        }
 
         default:
             return state;

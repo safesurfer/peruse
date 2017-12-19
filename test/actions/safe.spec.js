@@ -23,21 +23,21 @@ describe( 'notification actions', () =>
         expect( safe.getBrowserConfig( ) ).toEqual( expectedAction );
     } );
 
-    it( 'should saveBrowserConfig', () =>
+    it( 'should saveBrowserConfigStatus', () =>
     {
         const expectedAction = {
-            type : safe.TYPES.SAVE_BROWSER_CONFIG
+            type : safe.TYPES.SAVE_BROWSER_CONFIG_STATUS
         };
-        expect( safe.saveBrowserConfig( ) ).toEqual( expectedAction );
+        expect( safe.saveBrowserConfigStatus( ) ).toEqual( expectedAction );
     } );
 
-    it( 'should saveBrowserConfigAndQuit', () =>
-    {
-        const expectedAction = {
-            type : safe.TYPES.SAVE_BROWSER_CONFIG_AND_QUIT
-        };
-        expect( safe.saveBrowserConfigAndQuit( ) ).toEqual( expectedAction );
-    } );
+    // it( 'should saveBrowserConfigAndQuit', () =>
+    // {
+    //     const expectedAction = {
+    //         type : safe.TYPES.SAVE_BROWSER_CONFIG_STATUS_AND_QUIT
+    //     };
+    //     expect( safe.saveBrowserConfigStatusAndQuit( ) ).toEqual( expectedAction );
+    // } );
 
     it( 'should setInitializerTask', () =>
     {

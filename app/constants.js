@@ -147,6 +147,10 @@ export const SAFE = {
     },
     SAFE_APP_ERROR_CODES : {
         ERR_AUTH_DENIED : -200,
+    },
+    SAVE_STATUS :
+    {
+        TO_SAVE: 'TO_SAVE'
     }
 };
 

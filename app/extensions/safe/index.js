@@ -1,6 +1,7 @@
 import { session, shell } from 'electron';
 import logger from 'logger';
-import { CONFIG, isRunningProduction } from 'appConstants';
+import { CONFIG, isRunningProduction, SAFE } from 'appConstants';
+import { }
 import setupRoutes from './server-routes';
 import registerSafeProtocol from './protocols/safe';
 import registerSafeAuthProtocol from './protocols/safe-auth';
@@ -84,10 +85,15 @@ const init = async ( store ) =>
 
     blockNonSAFERequests();
 
-    // if we want to do something with the store, we would do it here.
-    // store.subscribe( () =>
-    // {
-    // } );
+    store.subscribe( () =>
+    {
+        const state = store.getState();
+        // const appStatus = state.appStatus;
+        if( state.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
+        {
+            saveConfigToSafe( state );
+        }
+    } );
 };
 
 // const middleware = store => next => action =>

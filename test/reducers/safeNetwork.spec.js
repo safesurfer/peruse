@@ -47,6 +47,21 @@ describe( 'safe network reducer', () =>
         } );
     });
 
+    describe( 'SAVE_BROWSER_CONFIG_STATUS', () =>
+    {
+        it( 'should handle saving browser', () =>
+        {
+            const payload =  SAFE.SAVE_STATUS.TO_SAVE;
+
+            expect(
+                safeNetwork( safeInitialState, {
+                    type    : TYPES.SAVE_BROWSER_CONFIG_STATUS,
+                    payload
+                } )
+            ).toMatchObject( { saveStatus : SAFE.SAVE_STATUS.TO_SAVE } );
+        } );
+    });
+
     describe( 'SAFE_NETWORK_STATUS_CHANGED', () =>
     {
         it( 'should handle a change in network state', () =>
