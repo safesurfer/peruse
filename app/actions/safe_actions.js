@@ -22,14 +22,14 @@ export const {
     storeNewAccount,
     safeNetworkStatusChanged,
     reconnectSafeApp
-} = createActions(
-    TYPES.AUTHORISE_SAFE_APP,
-    TYPES.GET_BROWSER_CONFIG,
-    TYPES.SAVE_BROWSER_CONFIG,
-    TYPES.SAVE_BROWSER_CONFIG_AND_QUIT,
+} = createActions({
+    [ TYPES.AUTHORISE_SAFE_APP ] : payload => payload,
+    [ TYPES.GET_BROWSER_CONFIG ] : payload => payload,
+    [ TYPES.SAVE_BROWSER_CONFIG ] : payload => payload,
+    [ TYPES.SAVE_BROWSER_CONFIG_AND_QUIT ] : payload => payload,
 
-    TYPES.SET_INITIALIZER_TASK,
-    TYPES.STORE_NEW_ACCOUNT,
-    TYPES.SAFE_NETWORK_STATUS_CHANGED,
-    TYPES.RECONNECT_SAFE_APP
-);
+    [ TYPES.SET_INITIALIZER_TASK ] : payload => payload,
+    [ TYPES.STORE_NEW_ACCOUNT ] : payload => payload,
+    [ TYPES.SAFE_NETWORK_STATUS_CHANGED ] : payload => payload,
+    [ TYPES.RECONNECT_SAFE_APP ] : payload => payload
+});

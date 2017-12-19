@@ -5,6 +5,7 @@ import initialState from 'reducers/initialAppState';
 import { SAFE, CONFIG } from 'appConstants';
 
 const safeInitialState = initialState.safeNetwork;
+
 describe( 'safe network reducer', () =>
 {
     it( 'should return the initial state', () =>
@@ -26,6 +27,7 @@ describe( 'safe network reducer', () =>
             ).toEqual( [ payload ] );
         } );
     });
+
     describe( 'AUTHORISE_SAFE_APP', () =>
     {
         it( 'should handle app authorisation', () =>
