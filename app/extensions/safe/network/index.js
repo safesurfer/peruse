@@ -22,28 +22,20 @@ export const authFromQueue = async () =>
 
 const authFromRes = async ( res ) =>
 {
-    try{
+    try {
         appObj = await appObj.auth.loginFromURI( res );
     }
     catch( err )
     {
         if( store )
         {
-            //TODO: Store not syncing.
             store.dispatch( addNotification({ text: err.message, onDismiss: clearNotification }) )
         }
 
-        // logger.error( store.getState().notifications )
         logger.error( err.message || err )
         logger.error( `>>>>>>>>>>>>>`)
     }
 };
-
-// ipcRenderer.on( 'simulate-mock-res', () =>
-// {
-//     logger.verbose('hi')
-//     // store.dispatch( simulateMockRes() );
-// } );
 
 
 const getMDataValueForKey = async ( md, key ) =>

@@ -1,7 +1,14 @@
 const initialState = {
-    bookmarks : [ ],
+    bookmarks     : [],
     notifications : [
     ],
+    safeNetwork : {
+        appStatus       : null,
+        networkStatus   : null,
+        app             : null,
+        tasks           : [],
+        savedBeforeQuit : false
+    },
     tabs : [{
         url          : 'safe-auth://home/',
         history      : ['safe-auth://home/'],

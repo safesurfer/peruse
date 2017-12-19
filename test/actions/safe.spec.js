@@ -1,6 +1,5 @@
 import * as safe from 'actions/safe_actions';
 
-console.log( 'safe', safe );
 describe( 'notification actions', () =>
 {
     it( 'should have types', () =>

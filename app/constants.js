@@ -41,10 +41,13 @@ export const INTERNAL_PAGES = {
 };
 
 export const CONFIG = {
-    PORT           : 3984,
-    SAFE_PARTITION : 'persist:safe-tab',
-    LIB_PATH       : path.resolve( __dirname, safeNodeAppPathModifier, 'node_modules/@maidsafe/safe-node-app/src/native' ),
-    CONFIG_PATH    : path.resolve( __dirname, '../resources' )
+    PORT                 : 3984,
+    SAFE_PARTITION       : 'persist:safe-tab',
+    LIB_PATH             : path.resolve( __dirname, safeNodeAppPathModifier, 'node_modules/@maidsafe/safe-node-app/src/native' ),
+    CONFIG_PATH          : path.resolve( __dirname, '../resources' ),
+    DATE_FORMAT          : 'h:MM-mmm dd',
+    NET_STATUS_CONNECTED : 'Connected',
+    STATE_KEY            : 'peruseState'
 };
 
 export const LIB_PATH = {
@@ -112,12 +115,25 @@ else if ( process.platform === 'darwin' )
 
 export const APP_INFO = appInfo;
 
+
+export const CLASSES = {
+    ACTIVE_TAB  : 'js-tabBar__active-tab',
+    TAB         : 'js-tab',
+    ADD_TAB     : 'js-tabBar__add-tab',
+    CLOSE_TAB   : 'js-tabBar__close-tab',
+    PERUSE_PAGE : 'js-peruse__page'
+};
+
+
+
 export const SAFE = {
     APP_STATUS : {
         AUTHORISED           : 'AUTHORISED',
         AUTHORISING          : 'AUTHORISING',
         AUTHORISATION_FAILED : 'AUTHORISATION_FAILED',
         AUTHORISATION_DENIED : 'AUTHORISATION_DENIED',
+        READING_CONFIG       : 'READING_CONFIG',
+        READY                : 'READY'
     },
     ACCESS_CONTAINERS : {
         PUBLIC       : '_public',
@@ -134,11 +150,21 @@ export const SAFE = {
     }
 };
 
+export const SAFE_APP_ERROR_CODES = {
+    ERR_AUTH_DENIED       : -200,
+    ENTRY_ALREADY_EXISTS  : -107,
+    ERR_NO_SUCH_ENTRY     : -106,
+    ERR_DATA_EXISTS       : -104,
+    ERR_DATA_NOT_FOUND    : -103,
+    ERR_OPERATION_ABORTED : -14
+};
 
-export const CLASSES = {
-    ACTIVE_TAB : 'js-tabBar__active-tab',
-    TAB        : 'js-tab',
-    ADD_TAB    : 'js-tabBar__add-tab',
-    CLOSE_TAB  : 'js-tabBar__close-tab',
-    PERUSE_PAGE : 'js-peruse__page'
+export const SAFE_MESSAGES = {
+    INITIALIZE : {
+        AUTHORISE_APP       : 'Authorising Application',
+        CHECK_CONFIGURATION : 'Checking configuration'
+    },
+    AUTHORISATION_ERROR       : 'Failed to authorise',
+    AUTHORISATION_DENIED      : 'The authorisation request was denied',
+    CHECK_CONFIGURATION_ERROR : 'Failed to retrieve configuration'
 };
