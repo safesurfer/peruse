@@ -130,7 +130,13 @@ export const handleOpenUrl = async ( res ) =>
 };
 
 
-
+// TODO: We are now getting the req into the browser. Now, can we easily get the
+// reponse back?
+// DO we hard-code a check for this to route it back here and get the appURI.
+// Then we only need trigger an action for the app/auth/save/read as was happening.
+//
+// So we keep an app status of 'saving' somewhere, so we can reference elsewhere, upon receiving.
+//
 export function parseSafeAuthUrl( url, isClient )
 {
     if( typeof url !== 'string' )
