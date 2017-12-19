@@ -8,6 +8,7 @@ import registerSafeAuthProtocol from './protocols/safe-auth';
 import ipc from './ffi/ipc';
 import { initAnon, initMock } from './network';
 import * as tabsActions from 'actions/tabs_actions';
+import * as safeActions from 'actions/safe_actions';
 import { urlIsAllowed } from './utils/safeHelpers';
 import * as authAPI from './auth-api';
 
@@ -92,6 +93,7 @@ const init = async ( store ) =>
         if( state.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
         {
             saveConfigToSafe( state );
+            store.dispatch( safeActions.saveBrowserConfigStatus( SAFE.SAVE_STATUS.SAVING ))
         }
     } );
 };

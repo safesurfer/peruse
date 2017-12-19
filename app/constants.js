@@ -125,7 +125,6 @@ export const CLASSES = {
 };
 
 
-
 export const SAFE = {
     APP_STATUS : {
         AUTHORISED           : 'AUTHORISED',
@@ -150,7 +149,10 @@ export const SAFE = {
     },
     SAVE_STATUS :
     {
-        TO_SAVE: 'TO_SAVE'
+        SAVING             : 'SAVING',
+        SAVED_SUCCESSFULLY : 'SAVED_SUCCESSFULLY',
+        FAILED_TO_SAVE     : 'FAILED_TO_SAVE',
+        TO_SAVE            : 'TO_SAVE'
     }
 };
 
