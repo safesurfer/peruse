@@ -28,7 +28,25 @@ describe( 'safe network reducer', () =>
         } );
     });
 
-    describe( 'AUTHORISE_SAFE_APP', () =>
+    describe( 'SET_AUTH_APP_STATUS', () =>
+    {
+        it( 'should handle app authorisation', () =>
+        {
+            const payload =   SAFE.APP_STATUS.AUTHORISING;
+
+            expect(
+                safeNetwork( safeInitialState, {
+                    type    : TYPES.SET_AUTH_APP_STATUS,
+                    payload
+                } )
+            ).toMatchObject( {
+                appStatus     : SAFE.APP_STATUS.AUTHORISING,
+            });
+        } );
+    });
+
+
+    describe( 'AUTHORISED_APP', () =>
     {
         it( 'should handle app authorisation', () =>
         {
@@ -36,7 +54,7 @@ describe( 'safe network reducer', () =>
 
             expect(
                 safeNetwork( safeInitialState, {
-                    type    : TYPES.AUTHORISE_SAFE_APP,
+                    type    : TYPES.AUTHORISED_APP,
                     payload
                 } )
             ).toMatchObject( {
@@ -47,7 +65,7 @@ describe( 'safe network reducer', () =>
         } );
     });
 
-    describe( 'SAVE_BROWSER_CONFIG_STATUS', () =>
+    describe( 'SET_SAVE_CONFIG_STATUS', () =>
     {
         it( 'should handle saving browser', () =>
         {
@@ -55,7 +73,7 @@ describe( 'safe network reducer', () =>
 
             expect(
                 safeNetwork( safeInitialState, {
-                    type    : TYPES.SAVE_BROWSER_CONFIG_STATUS,
+                    type    : TYPES.SET_SAVE_CONFIG_STATUS,
                     payload
                 } )
             ).toMatchObject( { saveStatus : SAFE.SAVE_STATUS.TO_SAVE } );

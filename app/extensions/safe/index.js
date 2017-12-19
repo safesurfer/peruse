@@ -89,11 +89,19 @@ const init = async ( store ) =>
     store.subscribe( () =>
     {
         const state = store.getState();
-        // const appStatus = state.appStatus;
-        if( state.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
+
+        if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
         {
+            logger.info('SHOUDL BE TRYING TO SAVE EHp')
             saveConfigToSafe( state );
-            store.dispatch( safeActions.saveBrowserConfigStatus( SAFE.SAVE_STATUS.SAVING ))
+            store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
+        }
+
+        if( state.safeNetwork.authStatus === SAFE.APP_STATUS.AUTHORISE )
+        {
+            logger.info('SHOUDL BE TRYING TO AUTH')
+            // saveConfigToSafe( state );
+            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISING ))
         }
     } );
 };

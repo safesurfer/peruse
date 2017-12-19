@@ -7,12 +7,14 @@ describe( 'notification actions', () =>
         expect( safe.TYPES ).toBeDefined();
     } );
 
-    it( 'should authoriseSafeApp', () =>
+    it( 'should setAuthAppStatus', () =>
     {
+        const payload = 'authing'
         const expectedAction = {
-            type : safe.TYPES.AUTHORISE_SAFE_APP
+            type : safe.TYPES.SET_AUTH_APP_STATUS,
+            payload
         };
-        expect( safe.authoriseSafeApp( ) ).toEqual( expectedAction );
+        expect( safe.setAuthAppStatus( payload ) ).toEqual( expectedAction );
     } );
 
     it( 'should getBrowserConfig', () =>
@@ -23,21 +25,25 @@ describe( 'notification actions', () =>
         expect( safe.getBrowserConfig( ) ).toEqual( expectedAction );
     } );
 
-    it( 'should saveBrowserConfigStatus', () =>
+    it( 'should setSaveConfigStatus', () =>
     {
         const expectedAction = {
-            type : safe.TYPES.SAVE_BROWSER_CONFIG_STATUS
+            type : safe.TYPES.SET_SAVE_CONFIG_STATUS
         };
-        expect( safe.saveBrowserConfigStatus( ) ).toEqual( expectedAction );
+        expect( safe.setSaveConfigStatus( ) ).toEqual( expectedAction );
     } );
 
-    // it( 'should saveBrowserConfigAndQuit', () =>
-    // {
-    //     const expectedAction = {
-    //         type : safe.TYPES.SAVE_BROWSER_CONFIG_STATUS_AND_QUIT
-    //     };
-    //     expect( safe.saveBrowserConfigStatusAndQuit( ) ).toEqual( expectedAction );
-    // } );
+
+    it( 'should have authorisedApp', () =>
+    {
+        const payload = { name: 'anApp'};
+        const expectedAction = {
+            type : safe.TYPES.AUTHORISED_APP,
+            payload
+        };
+        expect( safe.authorisedApp( payload ) ).toEqual( expectedAction );
+    } );
+
 
     it( 'should setInitializerTask', () =>
     {

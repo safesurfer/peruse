@@ -7,7 +7,8 @@ import {
     closeActiveTab,
     reopenTab
 } from 'actions/tabs_actions';
-import { saveBrowserConfig } from 'actions/safe_actions';
+import { setSaveConfigStatus } from 'actions/safe_actions';
+import { SAFE } from 'appConstants';
 import { focusAddressBar } from 'actions/ui_actions';
 import { isHot } from 'appConstants';
 import { getLastClosedTab } from 'reducers/tabs';
@@ -127,7 +128,7 @@ export default class MenuBuilder
                         if ( win )
                         {
                             const windowId = win.webContents.id;
-                            this.store.dispatch( saveBrowserConfig() )
+                            this.store.dispatch( setSaveConfigStatus( SAFE.SAVE_STATUS.TO_SAVE ) )
 
                         }
                     }

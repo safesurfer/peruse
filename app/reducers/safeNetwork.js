@@ -31,7 +31,14 @@ export default function safeNetwork( state = initialState, action )
         // {
         //     return { ...state, app: null, appStatus: SAFE.APP_STATUS.AUTHORISING };
         // }
-        case TYPES.AUTHORISE_SAFE_APP:
+        case TYPES.SET_AUTH_APP_STATUS:
+        {
+            return {
+                ...state,
+                appStatus     : payload,
+            };
+        }
+        case TYPES.AUTHORISED_APP:
         {
             return { ...state,
                 app           : { ...state.app, ...payload },
@@ -49,7 +56,7 @@ export default function safeNetwork( state = initialState, action )
                 appStatus : SAFE.APP_STATUS.READY,
             };
         }
-        case TYPES.SAVE_BROWSER_CONFIG_STATUS:
+        case TYPES.SET_SAVE_CONFIG_STATUS:
         {
             return { ...state,
                 saveStatus : payload,

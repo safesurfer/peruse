@@ -1,5 +1,8 @@
 import logger from 'logger';
-
+import { initializeApp, fromAuthURI } from '@maidsafe/safe-node-app';
+import {
+    setAuthAppStatus
+} from 'actions/safe_actions'
 /**
  * Adds an encrypted value mutation to an existing mutation handle + key for a given MD.
  * Encrypts both the handle and the key.
@@ -24,14 +27,15 @@ const updateOrCreateEncrypted = ( mutableDataHandle, mutationHandle, key, value,
 
                     if ( version )
                     {
-                        safeMutableDataMutation.update( mutationHandle, encryptedKey, encryptedValue, version )
+                        return safeMutableDataMutation.update(
+                            mutationHandle, encryptedKey, encryptedValue, version )
                             .then( resolve );
                     }
-                    else
-                    {
-                        safeMutableDataMutation.insert( mutationHandle, encryptedKey, encryptedValue )
-                            .then( resolve );
-                    }
+
+                    return safeMutableDataMutation.insert(
+                        mutationHandle, encryptedKey, encryptedValue )
+                        .then( resolve );
+
                 } )
             )
             .catch( e =>
@@ -44,17 +48,17 @@ const updateOrCreateEncrypted = ( mutableDataHandle, mutationHandle, key, value,
 
 
 /**
- * Parses the browser state to json (removes initializer) and saves to an MD on the app Homecontainer,
+ * Parses the browser state to json (removes safeNetwork) and saves to an MD on the app Homecontainer,
  * encrypting as it goes.
  * @param  { Object } state App state
  * @param  { Bool } quit  to quit or not to quit...
  * @return {[type]}       Promise
  */
-export const saveConfigToSafe = ( state, quit ) =>
+export const saveConfigToSafe = ( store, quit ) =>
 {
-    logger.info( 'SAVINNNGNGGGGGGG');
-    console.log('SAVINGNGGGGGGGG');
-    const stateToSave = { ...state, initializer: {} };
+    const state = store.getState();
+
+    const stateToSave = { ...state, safeNetwork: {} };
     const JSONToSave = JSON.stringify( stateToSave );
     let encryptedData;
     let encryptedKey;
@@ -62,17 +66,15 @@ export const saveConfigToSafe = ( state, quit ) =>
 
     return new Promise( ( resolve, reject ) =>
     {
-        const initializer = state.initializer;
-        const app = initializer.app;
+        const safeNetwork = state.safeNetwork;
+        const app = safeNetwork.app;
 
         if ( !app || !app.handle || !app.authUri )
         {
             logger.error( 'Not authorised to save to the network.' );
 
-            if ( quit )
-            {
-                browserInstance.quit();
-            }
+
+            store.dispatch( setAuthAppStatus() );
 
             return reject( 'Not authorised to save data' );
         }

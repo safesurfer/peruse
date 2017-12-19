@@ -1,10 +1,10 @@
 import { createActions } from 'redux-actions';
 
 export const TYPES = {
-    AUTHORISE_SAFE_APP           : 'AUTHORISE_SAFE_APP',
+    SET_AUTH_APP_STATUS           : 'SET_AUTH_APP_STATUS',
     GET_BROWSER_CONFIG           : 'GET_BROWSER_CONFIG',
-    SAVE_BROWSER_CONFIG_STATUS : 'SAVE_BROWSER_CONFIG_STATUS',
-    // SAVE_BROWSER_CONFIG_AND_QUIT : 'SAVE_BROWSER_CONFIG_AND_QUIT',
+    SET_SAVE_CONFIG_STATUS : 'SET_SAVE_CONFIG_STATUS',
+    AUTHORISED_APP : 'AUTHORISED_APP',
 
     SET_INITIALIZER_TASK        : 'SET_INITIALIZER_TASK',
     STORE_NEW_ACCOUNT           : 'STORE_NEW_ACCOUNT',
@@ -13,20 +13,20 @@ export const TYPES = {
 };
 
 export const {
-    authoriseSafeApp,
+    setAuthAppStatus,
     getBrowserConfig,
-    saveBrowserConfigStatus,
-    // saveBrowserConfigAndQuit,
+    setSaveConfigStatus,
+    authorisedApp,
 
     setInitializerTask,
     storeNewAccount,
     safeNetworkStatusChanged,
     reconnectSafeApp
 } = createActions(
-    TYPES.AUTHORISE_SAFE_APP,
+    TYPES.SET_AUTH_APP_STATUS,
     TYPES.GET_BROWSER_CONFIG,
-    TYPES.SAVE_BROWSER_CONFIG_STATUS,
-    // TYPES.SAVE_BROWSER_CONFIG_AND_QUIT,
+    TYPES.SET_SAVE_CONFIG_STATUS,
+    TYPES.AUTHORISED_APP,
 
     TYPES.SET_INITIALIZER_TASK,
     TYPES.STORE_NEW_ACCOUNT,
