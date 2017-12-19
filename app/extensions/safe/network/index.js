@@ -5,8 +5,8 @@ import { parse as parseURL } from 'url';
 import { app } from 'electron';
 // import { executeScriptInBackground } from 'utils/background-process';
 import { addNotification, clearNotification } from 'actions/notification_actions';
-import { callIPC } from './ffi/ipc';
-import AUTH_CONSTANTS from './auth-constants';
+import { callIPC } from '../ffi/ipc';
+import AUTH_CONSTANTS from '../auth-constants';
 
 const queue = [];
 let appObj;

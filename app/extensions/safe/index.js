@@ -1,9 +1,9 @@
 import { session, shell } from 'electron';
 import logger from 'logger';
 import { CONFIG, isRunningProduction, SAFE } from 'appConstants';
-import { }
 import setupRoutes from './server-routes';
 import registerSafeProtocol from './protocols/safe';
+import { saveConfigToSafe } from './network/savingBrowserState';
 import registerSafeAuthProtocol from './protocols/safe-auth';
 import ipc from './ffi/ipc';
 import { initAnon, initMock } from './network';
