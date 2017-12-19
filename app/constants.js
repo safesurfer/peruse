@@ -127,6 +127,7 @@ export const CLASSES = {
 
 export const SAFE = {
     APP_STATUS : {
+        TO_AUTH           : 'TO_AUTH',
         AUTHORISED           : 'AUTHORISED',
         AUTHORISING          : 'AUTHORISING',
         AUTHORISATION_FAILED : 'AUTHORISATION_FAILED',

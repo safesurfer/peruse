@@ -3,10 +3,13 @@ import logger from 'logger';
 import { CONFIG, isRunningProduction, SAFE } from 'appConstants';
 import setupRoutes from './server-routes';
 import registerSafeProtocol from './protocols/safe';
-import { saveConfigToSafe } from './network/savingBrowserState';
+import {
+    saveConfigToSafe
+} from './network/savingBrowserState';
 import registerSafeAuthProtocol from './protocols/safe-auth';
 import ipc from './ffi/ipc';
-import { initAnon, initMock } from './network';
+
+import { initAnon, initMock, requestAuth } from './network';
 import * as tabsActions from 'actions/tabs_actions';
 import * as safeActions from 'actions/safe_actions';
 import { urlIsAllowed } from './utils/safeHelpers';
@@ -86,22 +89,29 @@ const init = async ( store ) =>
 
     blockNonSAFERequests();
 
-    store.subscribe( () =>
+    store.subscribe( async() =>
     {
         const state = store.getState();
 
         if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
         {
             logger.info('SHOUDL BE TRYING TO SAVE EHp')
-            saveConfigToSafe( state );
             store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
+            saveConfigToSafe( store );
         }
-
-        if( state.safeNetwork.authStatus === SAFE.APP_STATUS.AUTHORISE )
+        logger.info('AWHHASHADHADWADAW', state.safeNetwork.appStatus, SAFE.APP_STATUS.TO_AUTH )
+        if( state.safeNetwork.appStatus === SAFE.APP_STATUS.TO_AUTH )
         {
             logger.info('SHOUDL BE TRYING TO AUTH')
-            // saveConfigToSafe( state );
             store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISING ))
+            let app = await requestAuth();
+
+            logger.info('auuuhthththhththedddd')
+            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
+
+            // TODO: AuthorisedApp should be localscope?
+            store.dispatch( safeActions.authorisedApp( app ))
+
         }
     } );
 };

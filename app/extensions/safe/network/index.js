@@ -110,6 +110,10 @@ export const handleAnonConnResponse = ( url ) => authFromRes( url );
 
 export const handleOpenUrl = async ( res ) =>
 {
+    if( typeof res !== 'string' )
+    {
+        throw new Error( 'Response url should be a string')
+    }
     let authUrl = null;
     logger.info( 'Received URL response: ', res, parseURL( res ).protocol );
 
@@ -160,24 +164,28 @@ export function parseSafeAuthUrl( url, isClient )
     return safeAuthUrl;
 }
 
-//
-// export const requestAuth = async () =>
-// {
-//     try
-//     {
-//         const app = await initializeApp( APP_INFO.info, null, { libPath: CONFIG.LIB_PATH } );
-//         const resp = await app.auth.genAuthUri( APP_INFO.permissions, APP_INFO.opts );
-//         // commented out until system_uri open issue is solved for osx
-//         // await app.auth.openUri(resp.uri);
-//         // openExternal( resp.uri );
-//         return;
-//     }
-//     catch ( err )
-//     {
-//         console.error( err );
-//         throw err;
-//     }
-// };
+
+export const requestAuth = async () =>
+{
+    try
+    {
+        const app = await initializeApp( APP_INFO.info, null, { libPath: CONFIG.LIB_PATH } );
+        const resp = await app.auth.genAuthUri( APP_INFO.permissions, APP_INFO.opts );
+
+        logger.info( 'AUTH URIRIIII???', resp)
+
+        // commented out until system_uri open issue is solved for osx
+        // await app.auth.openUri(resp.uri);
+        // openExternal( resp.uri );
+        handleOpenUrl( resp.uri );
+        return;
+    }
+    catch ( err )
+    {
+        console.error( err );
+        throw err;
+    }
+};
 
 
 export const connectAuthed = async ( uri, netStatusCallback ) =>

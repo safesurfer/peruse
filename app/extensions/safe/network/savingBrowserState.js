@@ -3,6 +3,8 @@ import { initializeApp, fromAuthURI } from '@maidsafe/safe-node-app';
 import {
     setAuthAppStatus
 } from 'actions/safe_actions'
+import { SAFE } from 'appConstants';
+
 /**
  * Adds an encrypted value mutation to an existing mutation handle + key for a given MD.
  * Encrypts both the handle and the key.
@@ -74,60 +76,60 @@ export const saveConfigToSafe = ( store, quit ) =>
             logger.error( 'Not authorised to save to the network.' );
 
 
-            store.dispatch( setAuthAppStatus() );
+            store.dispatch( setAuthAppStatus( SAFE.APP_STATUS.TO_AUTH ) );
 
             return reject( 'Not authorised to save data' );
         }
 
         logger.info( 'Attempting to save state to the network.' );
 
-        safeApp.getOwnContainer( app.handle )
-            .then( res => homeMdHandle = res )
-            .then( data => encryptedData = data )
-            .then( () =>
-            {
-                let mutationHandle;
-                return safeMutableData.getEntries( homeMdHandle )
-                    .then( ( entriesHandle ) => safeMutableDataEntries.mutate( entriesHandle ) )
-                    .then( ( res ) => mutationHandle = res )
-                    .then( () => safeMutableData.encryptKey( homeMdHandle, STATE_KEY ) )
-                    .then( res => encryptedKey = res )
-                    .then( () => safeMutableData.get( homeMdHandle, encryptedKey ) )
-                    .catch( e => logger.info( e.code, e.message ) )
-                    .then( ( value ) =>
-                    {
-                        let version = null;
-
-                        if ( value )
-                        {
-                            version = value.version + 1;
-                        }
-
-                        return updateOrCreateEncrypted( homeMdHandle, mutationHandle, STATE_KEY, JSONToSave, version );
-                    } )
-                    .then( _ => safeMutableData.applyEntriesMutation( homeMdHandle, mutationHandle ) )
-                    .then( ( done ) =>
-                    {
-                        logger.info( 'Successfully save data to the network.' );
-                        resolve();
-
-                        if ( quit )
-                        {
-                            browserInstance.quit();
-                        }
-
-                        return Promise.resolve();
-                    } );
-            } )
-            .catch( e =>
-            {
-                logger.error( 'Problems saving data to the network: ', e.message );
-                reject( e );
-                if ( quit )
-                {
-                    browserInstance.quit();
-                }
-            } );
+        // safeApp.getOwnContainer( app.handle )
+        //     .then( res => homeMdHandle = res )
+        //     .then( data => encryptedData = data )
+        //     .then( () =>
+        //     {
+        //         let mutationHandle;
+        //         return safeMutableData.getEntries( homeMdHandle )
+        //             .then( ( entriesHandle ) => safeMutableDataEntries.mutate( entriesHandle ) )
+        //             .then( ( res ) => mutationHandle = res )
+        //             .then( () => safeMutableData.encryptKey( homeMdHandle, STATE_KEY ) )
+        //             .then( res => encryptedKey = res )
+        //             .then( () => safeMutableData.get( homeMdHandle, encryptedKey ) )
+        //             .catch( e => logger.info( e.code, e.message ) )
+        //             .then( ( value ) =>
+        //             {
+        //                 let version = null;
+        //
+        //                 if ( value )
+        //                 {
+        //                     version = value.version + 1;
+        //                 }
+        //
+        //                 return updateOrCreateEncrypted( homeMdHandle, mutationHandle, STATE_KEY, JSONToSave, version );
+        //             } )
+        //             .then( _ => safeMutableData.applyEntriesMutation( homeMdHandle, mutationHandle ) )
+        //             .then( ( done ) =>
+        //             {
+        //                 logger.info( 'Successfully save data to the network.' );
+        //                 resolve();
+        //
+        //                 if ( quit )
+        //                 {
+        //                     browserInstance.quit();
+        //                 }
+        //
+        //                 return Promise.resolve();
+        //             } );
+        //     } )
+        //     .catch( e =>
+        //     {
+        //         logger.error( 'Problems saving data to the network: ', e.message );
+        //         reject( e );
+        //         if ( quit )
+        //         {
+        //             browserInstance.quit();
+        //         }
+        //     } );
     } );
 };
 
