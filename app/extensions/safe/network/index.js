@@ -103,8 +103,21 @@ export const initAnon = async ( passedStore ) =>
     }
 };
 
-
 export const handleConnResponse = ( url ) => authFromRes( url );
+//
+// export const handleAuthConnResponse = ( url ) => {
+//     authFromRes( url );
+//
+//     logger.info('RECEVIEEEDD FROM IPC AUTH FOR BROWSSSSS')
+//     if( store )
+//     logger.info('in iffff FOR BROWSSSSS')
+//     {
+//         store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
+//
+//         // TODO: AuthorisedApp should be localscope?
+//         store.dispatch( safeActions.authorisedApp( app ))
+//     }
+// };
 
 
 
@@ -183,7 +196,7 @@ export const requestAuth = async () =>
         // await app.auth.openUri(authReq.uri);
         // openExternal( authReq.uri );
         handleOpenUrl( authReq.uri );
-        return;
+        return app;
     }
     catch ( err )
     {

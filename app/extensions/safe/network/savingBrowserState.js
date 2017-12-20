@@ -1,7 +1,8 @@
 import logger from 'logger';
 import { initializeApp, fromAuthURI } from '@maidsafe/safe-node-app';
 import {
-    setAuthAppStatus
+    setAuthAppStatus,
+    setSaveConfigStatus
 } from 'actions/safe_actions'
 import { SAFE } from 'appConstants';
 
@@ -71,17 +72,21 @@ export const saveConfigToSafe = ( store, quit ) =>
         const safeNetwork = state.safeNetwork;
         const app = safeNetwork.app;
 
-        if ( !app || !app.handle || !app.authUri )
+        console.log( app );
+        logger.info( app );
+
+        if ( !app )
         {
+            store.dispatch( setSaveConfigStatus( SAFE.SAVE_STATUS.FAILED_TO_SAVE ) );
             logger.error( 'Not authorised to save to the network.' );
 
 
-            store.dispatch( setAuthAppStatus( SAFE.APP_STATUS.TO_AUTH ) );
+            // store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
 
             return reject( 'Not authorised to save data' );
         }
 
-        logger.info( 'Attempting to save state to the network.' );
+        logger.info( '!!!!!!!!!!!!!!!!!Attempting to save state to the network.' );
 
         // safeApp.getOwnContainer( app.handle )
         //     .then( res => homeMdHandle = res )

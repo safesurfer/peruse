@@ -109,6 +109,10 @@ class ReqQueue
             {
                 handleConnResponse( parseResUrl( res ) );
             }
+            // else if ( this.req.uri === global.browserAuthReqUri )
+            // {
+            //     handleAuthConnResponse( parseResUrl( res ) );
+            // }
             else
             {
                 openExternal( res );

@@ -92,12 +92,26 @@ const init = async ( store ) =>
     store.subscribe( async() =>
     {
         const state = store.getState();
+        const authingStates = [
+            SAFE.APP_STATUS.TO_AUTH,
+            SAFE.APP_STATUS.AUTHORISING,
+            SAFE.APP_STATUS.AUTHORISATION_FAILED,
+            SAFE.APP_STATUS.AUTHORISATION_DENIED
+        ];
 
         if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.TO_SAVE )
         {
-            logger.info('SHOUDL BE TRYING TO SAVE EHp')
-            store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
-            saveConfigToSafe( store );
+            logger.info('SHOUDL BE TRYING TO SAVE EHp', state.safeNetwork.appStatus, SAFE.APP_STATUS.AUTHORISED)
+
+            if( state.safeNetwork.appStatus === SAFE.APP_STATUS.AUTHORISED )
+            {
+                store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
+                saveConfigToSafe( store );
+            }
+            else if( ! authingStates.includes( state.safeNetwork.appStatus ) )
+            {
+                store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.TO_AUTH ))
+            }
         }
         // else if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.TO_SAVE &&
         //     state.safeNetwork.appStatus !== SAFE.APP_STATUS.TO_AUTH ||
@@ -113,12 +127,19 @@ const init = async ( store ) =>
             store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISING ))
             let app = await requestAuth();
 
-            logger.info('auuuhthththhththedddd')
-            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
+            logger.info('auuuhthththhththedddd <>>>><><><<>>>>>>>>>>');
 
             // TODO: AuthorisedApp should be localscope?
-            store.dispatch( safeActions.authorisedApp( app ))
+            store.dispatch( safeActions.authorisedApp( app ) );
+            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
 
+        }
+
+
+        if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.FAILED_TO_SAVE &&
+            state.safeNetwork.appStatus === SAFE.APP_STATUS.AUTHORISED )
+        {
+            store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.TO_SAVE ))
         }
     } );
 };
