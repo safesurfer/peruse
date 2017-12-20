@@ -4,7 +4,7 @@ import {
     setAuthAppStatus,
     setSaveConfigStatus
 } from 'actions/safe_actions'
-import { SAFE } from 'appConstants';
+import { CONFIG, SAFE } from 'appConstants';
 
 /**
  * Adds an encrypted value mutation to an existing mutation handle + key for a given MD.
@@ -67,7 +67,7 @@ export const saveConfigToSafe = ( store, quit ) =>
     let encryptedKey;
     let homeMdHandle;
 
-    return new Promise( ( resolve, reject ) =>
+    return new Promise( async ( resolve, reject ) =>
     {
         const safeNetwork = state.safeNetwork;
         const app = safeNetwork.app;
@@ -79,17 +79,39 @@ export const saveConfigToSafe = ( store, quit ) =>
         {
             store.dispatch( setSaveConfigStatus( SAFE.SAVE_STATUS.FAILED_TO_SAVE ) );
             logger.error( 'Not authorised to save to the network.' );
-
-
-            // store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
-
             return reject( 'Not authorised to save data' );
         }
 
-        logger.info( '!!!!!!!!!!!!!!!!!Attempting to save state to the network.' );
+        logger.info( '!!!!!!!!!!!!!!!!!Attempting to save state to the network.', app );
 
-        // safeApp.getOwnContainer( app.handle )
-        //     .then( res => homeMdHandle = res )
+        try{
+
+            let container = await app.auth.getOwnContainer();
+            let mdEntries = await app.mutableData.getEntries();
+            let mutation = await app.mutableData.newMutation();
+            let encryptedKey = await app.mutableData.encryptKey( CONFIG.STATE_KEY );
+            let previousEntry = await app.mutableData.get( encryptedKey );
+
+            logger.info( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
+            logger.info( container, mdEntries, mutation, encryptedKey );
+            logger.info( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' );
+            let version;
+            if( previousEntry && previousEntry.version )
+            {
+                version = value.version + 1;
+            }
+
+            logger.info('we got here');
+            updateOrCreateEncrypted( homeMdHandle, mutationHandle, STATE_KEY, JSONToSave, version );
+
+        }
+        catch( e )
+        {
+            logger.error( '>>>>>>>>>>>>>>>>>' )
+            logger.error( e )
+            logger.error( '>>>>>>>>>>>>>>>>>' )
+        }
+            // .then( res => homeMdHandle = res )
         //     .then( data => encryptedData = data )
         //     .then( () =>
         //     {
