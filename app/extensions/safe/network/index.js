@@ -104,7 +104,7 @@ export const initAnon = async ( passedStore ) =>
 };
 
 
-export const handleAnonConnResponse = ( url ) => authFromRes( url );
+export const handleConnResponse = ( url ) => authFromRes( url );
 
 
 
@@ -132,7 +132,6 @@ export const handleOpenUrl = async ( res ) =>
 
 // TODO: We are now getting the req into the browser. Now, can we easily get the
 // reponse back?
-// DO we hard-code a check for this to route it back here and get the appURI.
 // Then we only need trigger an action for the app/auth/save/read as was happening.
 //
 // So we keep an app status of 'saving' somewhere, so we can reference elsewhere, upon receiving.
@@ -176,14 +175,14 @@ export const requestAuth = async () =>
     try
     {
         const app = await initializeApp( APP_INFO.info, null, { libPath: CONFIG.LIB_PATH } );
-        const resp = await app.auth.genAuthUri( APP_INFO.permissions, APP_INFO.opts );
+        const authReq = await app.auth.genAuthUri( APP_INFO.permissions, APP_INFO.opts );
 
-        logger.info( 'AUTH URIRIIII???', resp)
+        global.browserAuthReqUri = authReq.uri;
 
         // commented out until system_uri open issue is solved for osx
-        // await app.auth.openUri(resp.uri);
-        // openExternal( resp.uri );
-        handleOpenUrl( resp.uri );
+        // await app.auth.openUri(authReq.uri);
+        // openExternal( authReq.uri );
+        handleOpenUrl( authReq.uri );
         return;
     }
     catch ( err )

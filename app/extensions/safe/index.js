@@ -99,6 +99,13 @@ const init = async ( store ) =>
             store.dispatch( safeActions.setSaveConfigStatus( SAFE.SAVE_STATUS.SAVING ))
             saveConfigToSafe( store );
         }
+        // else if( state.safeNetwork.saveStatus === SAFE.SAVE_STATUS.TO_SAVE &&
+        //     state.safeNetwork.appStatus !== SAFE.APP_STATUS.TO_AUTH ||
+        //     state.safeNetwork.appStatus !== SAFE.APP_STATUS.AUTHORISING )
+        // {
+        //     store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.TO_AUTH ) );
+        // }
+
         logger.info('AWHHASHADHADWADAW', state.safeNetwork.appStatus, SAFE.APP_STATUS.TO_AUTH )
         if( state.safeNetwork.appStatus === SAFE.APP_STATUS.TO_AUTH )
         {

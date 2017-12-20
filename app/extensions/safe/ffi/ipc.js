@@ -5,7 +5,7 @@ import i18n from 'i18n';
 import authenticator from './authenticator';
 import CONSTANTS from '../auth-constants';
 import config from '../config';
-import { handleAnonConnResponse } from '../network';
+import { handleConnResponse } from '../network';
 import logger from 'logger';
 
 config.i18n();
@@ -104,9 +104,10 @@ class ReqQueue
 
             logger.info( 'this.req.uri', this.req.uri, res );
 
-            if ( this.req.uri === global.browserReqUri )
+            if ( this.req.uri === global.browserReqUri ||
+                this.req.uri === global.browserAuthReqUri )
             {
-                handleAnonConnResponse( parseResUrl( res ) );
+                handleConnResponse( parseResUrl( res ) );
             }
             else
             {
