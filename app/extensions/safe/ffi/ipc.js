@@ -104,21 +104,22 @@ class ReqQueue
 
             logger.info( 'this.req.uri', this.req.uri, res );
 
-            if ( this.req.uri === global.browserReqUri ||
-                this.req.uri === global.browserAuthReqUri )
+            if ( this.req.uri === global.browserReqUri)
             {
                 handleConnResponse( parseResUrl( res ) );
             }
-            // else if ( this.req.uri === global.browserAuthReqUri )
-            // {
-            //     handleAuthConnResponse( parseResUrl( res ) );
-            // }
+            else if ( this.req.uri === global.browserAuthReqUri )
+            {
+                const isAuthenticated = true;
+                handleConnResponse( parseResUrl( res ), isAuthenticated );
+            }
             else
             {
                 openExternal( res );
             }
 
             self.next();
+            return;
         } ).catch( ( err ) =>
         {
             logger.error( err.message || err );

@@ -124,14 +124,10 @@ const init = async ( store ) =>
         if( state.safeNetwork.appStatus === SAFE.APP_STATUS.TO_AUTH )
         {
             logger.info('SHOUDL BE TRYING TO AUTH')
-            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISING ))
             let app = await requestAuth();
+            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISING ))
 
             logger.info('auuuhthththhththedddd <>>>><><><<>>>>>>>>>>');
-
-            // TODO: AuthorisedApp should be localscope?
-            store.dispatch( safeActions.authorisedApp( app ) );
-            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
 
         }
 

@@ -20,10 +20,20 @@ export const authFromQueue = async () =>
     }
 };
 
-const authFromRes = async ( res ) =>
+const authFromRes = async ( res, isAuthenticated ) =>
 {
     try {
         appObj = await appObj.auth.loginFromURI( res );
+
+        console.log('?????????????????????????????', appObj);
+
+        if( isAuthenticated )
+        {
+            // TODO: AuthorisedApp should be localscope?
+            store.dispatch( safeActions.authorisedApp( appObj ) );
+            store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
+        }
+
     }
     catch( err )
     {
@@ -75,6 +85,7 @@ export const initAnon = async ( passedStore ) =>
 
     try
     {
+        // does it matter if we override?
         appObj = await initializeApp( APP_INFO.info, null, {
             libPath: CONFIG.LIB_PATH,
             registerScheme: false,
@@ -103,21 +114,7 @@ export const initAnon = async ( passedStore ) =>
     }
 };
 
-export const handleConnResponse = ( url ) => authFromRes( url );
-//
-// export const handleAuthConnResponse = ( url ) => {
-//     authFromRes( url );
-//
-//     logger.info('RECEVIEEEDD FROM IPC AUTH FOR BROWSSSSS')
-//     if( store )
-//     logger.info('in iffff FOR BROWSSSSS')
-//     {
-//         store.dispatch( safeActions.setAuthAppStatus( SAFE.APP_STATUS.AUTHORISED ))
-//
-//         // TODO: AuthorisedApp should be localscope?
-//         store.dispatch( safeActions.authorisedApp( app ))
-//     }
-// };
+export const handleConnResponse = ( url, isAuthenticated ) => authFromRes( url, isAuthenticated );
 
 
 
